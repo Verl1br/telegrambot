@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  bot:
+    build: ./
+    command: ./wait-for-postgres.sh db ./telegramtz
+    depends_on:
+      - db
+    environment:
+      - CREATE_TABLE=yes
+      - DB_PASSWORD=root
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - PGDATA=/data/postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=telegramtz
+    ports:
+      - 5436:5432
